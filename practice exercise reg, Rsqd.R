@@ -1,0 +1,13 @@
+library(ggplot2)
+library(ggpubr)
+library(dplyr)
+library(broom)
+rep<-c(1,2,3,4,5,6,7,8)
+weekly_sales<-c(10,12,28,24,18,16,15,12)
+test_score<-c(55,60,85,75,80,85,65,60)
+apt<-data.frame(rep,weekly_sales,test_score)
+reg<-lm(test_score~weekly_sales, data = apt)
+reg
+lm(weekly_sales~test_score, data = apt)
+cor(apt)
+summary(reg)
