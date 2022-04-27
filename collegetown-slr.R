@@ -22,3 +22,5 @@ geom_line(plotly)
 ggplot(X1649256667723_collegetown, aes(x = sqft, y = price)) +
         geom_point(shape = 19) +
         geom_smooth(method = "lm", se = FALSE, colour = "red")
+library(lmtest)
+grangertest(price ~ sqft, order = 3, data = X1649256667723_collegetown)
