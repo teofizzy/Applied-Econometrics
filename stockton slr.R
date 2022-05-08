@@ -65,3 +65,37 @@ b1.conf.upper <- b1 + t.val * sqrt(mse) / sqrt(sum((usd_value - mean(usd_value))
 b1.conf.lower <- b1 - t.val * sqrt(mse) / sqrt(sum((usd_value - mean(usd_value))^2))
 b1.conf.lower
 b1.conf.upper
+
+## Example mlr
+qt(0.975,1198)
+2.39968/0.1354
+qt(0.025,1198)
+0.1354*1.9695
+2.3969+0.1354*1.9695
+1-0.2353
+q_dem<-c(100,75,80,70,50,65,90,100,110,60)
+pri<-c(5,7,6,6,8,7,5,4,3,9)
+con_in<-c(1000,600,1200,500,300,400,1300,1100,1300,300)
+length(q_dem)
+length(con_in)
+length(pri)
+q_d_df<-data.frame(q_dem, pri, con_in)
+q_d_df
+qd_fitted<-lm(q_dem~pri+con_in, data = q_d_df)
+qd_fitted
+summary(qd_fitted)
+residuals(qd_fitted)
+(residuals(qd_fitted))^2
+su_sqd<-(sum((residuals(qd_fitted))^2))/7
+su_sqd
+mean(pri)
+sum((as.matrix(pri-mean(pri)))^2)
+s_x2_x3<-(sum(((as.matrix(con_in-mean(con_in))))*((as.matrix(pri-mean(pri))))))/9
+s_x2_x3
+s_x2<-sqrt((sum((as.matrix(pri-mean(pri)))^2))/9)
+s_x2
+s_x3<-sqrt((sum((as.matrix(con_in-mean(con_in)))^2))/9)
+s_x3
+cov_x2_x3<-s_x2_x3/(s_x2*s_x3)
+(cov_x2_x3)^2
+cov.wt(q_d_df)
