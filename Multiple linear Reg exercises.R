@@ -1,0 +1,102 @@
+require(ggplot2)
+require(dplyr)
+require(readxl)
+cps5_small
+new_wage<-mutate(cps5_small, exper_sqd = exper^2)
+new_wage
+new_wage_lm<-lm(wage~educ + exper +exper_sqd, data = new_wage)
+new_wage_fitted<-new_wage_lm$fitted.values
+new_wage_fitted
+summary(new_wage_lm)
+qt(0.975,1196)
+qt(0.025,1196)
+b0 <- new_wage_lm$coefficients[1]
+b1 <- new_wage_lm$coefficients[2]
+b0
+b1
+b2<-new_wage_lm$coefficients[3]
+b2
+b3<-new_wage_lm$coefficients[4]
+b2+b3*8
+sse <- sum((new_wage$wage - new_wage_fitted)^2)
+mse <- sse / (1200 - 2)
+sse
+mse
+t.val <- qt(0.975, 1196)
+t.val
+b1.conf.upper <- b1 + t.val * sqrt(mse) / sqrt(sum((new_wage$educ - mean(new_wage$educ))^2))
+b1.conf.upper
+b1.conf.lower <- b1 - t.val * sqrt(mse) / sqrt(sum((new_wage$educ - mean(new_wage$educ))^2))
+b1.conf.lower
+new_wage_df<-data.frame(new_wage$wage, new_wage$educ, new_wage$exper, new_wage$exper_sqd)
+new_wage_df
+names(new_wage_df) <- c("wage", "educ", "exper", "exper.sqd")
+new_wage_df
+vcov(summary(new_wage_lm, complete = TRUE))# covariance matrix
+vcov(summary(new_wage_lm, complete = FALSE))
+
+new_wage2<-mutate(new_wage,ln_wage = log(wage), educ_sqd = educ^2, educ_exper = exper*educ)
+new_wage2
+new_wage2_df<-data.frame(new_wage2$ln_wage, new_wage2$educ, new_wage2$educ_sqd, new_wage2$exper,
+                         new_wage2$exper_sqd, new_wage2$educ_exper)
+new_wage2_df
+names(new_wage2_df)<-c("ln_wage","educ", "educ_sqd", "exper", "exper_sqd", "educ_exper")
+new_wage2_df
+##work needs to be done on log-linear models, I am tayad for today
+##Let me try a quack method
+log(new_wage_df$wage)
+ln_wage_model<-lm(ln_wage~educ+educ_sqd+exper+exper_sqd+educ_exper, data = new_wage2_df)
+ln_wage_model
+summary(ln_wage_model)
+##yaaaay, hacked it!!!
+
+
+## Restricted and unrestricted models with london5 dataset
+ldn<-mutate(london5, ln_totexp = log(totexp), age_sqd = age^2)
+ldn
+ldn_df<-data.frame(ldn$wfood, ldn$ln_totexp, ldn$nk,ldn$age, ldn$age_sqd)
+ldn_df
+names(ldn_df)<-c("wfood", "ln_totexp", "nk", "age", "age_sqd")
+ldn_df
+## Should age and age_sqd be included in the model?
+#H0: b4 and b5 = 0
+#H1: b4 and b5 not equal to zero
+ldn.model.unrestricted<-lm(wfood~ln_totexp+nk+age+age_sqd, data = ldn_df)## unrestricted model
+ldn.model
+summary(ldn.model)
+residuals(ldn.model)
+r<-residuals(ldn.model.unrestricted)
+sum(r^2)
+
+r.unrestricted<-residuals(ldn.model.unrestricted)
+r.unrestricted^2
+sum(r.unrestricted^2)## RSS unrestricted model
+ldn.model.restricted<-lm(wfood~ln_totexp+nk, data = ldn_df) ## restricted model
+ldn.model.restricted
+summary(ldn.model.restricted)
+r.restricted<-residuals(ldn.model.restricted)
+r.restricted^2
+sum(r.restricted^2)
+
+## br5 dataset
+br5
+br5_new<-mutate(br5, ln_price = log(price))
+br5_new
+br5_new_df<-data.frame(br5_new$ln_price, br5_new$sqft, br5_new$bedrooms)
+br5_new_df
+names(br5_new_df)<-c("ln_price", "sqft", "bedrooms")
+br5_new_df
+ln_price.model1<-lm(ln_price~bedrooms, data = br5_new_df)
+summary(ln_price.model1)
+ln_price.model2<-lm(ln_price~bedrooms+sqft, data = br5_new_df)
+summary(ln_price.model2)
+sqft.model<-lm(sqft~bedrooms, data = br5_new_df)
+sqft.model
+br5
+qt(0.975,897)
+ln.price.fitted<-lm(ln_price~age+sqft, data = br5_new)
+ln.price.fitted
+price.fitted<-lm(price~age+sqft, data = br5_new)
+price.fitted
+vcov(summary(price.fitted))
+summary(price.fitted)
