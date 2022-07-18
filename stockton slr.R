@@ -99,3 +99,16 @@ s_x3
 cov_x2_x3<-s_x2_x3/(s_x2*s_x3)
 (cov_x2_x3)^2
 cov.wt(q_d_df)
+
+##teo's code for s.e, bj, in mlr computations
+su_sq_d<-(sum((residuals(y.fitted))^2))/n-k
+sx2_x3<-(sum(((as.matrix(x2-mean(x2))))*((as.matrix(x3-mean(x3))))))/n-1
+sx2<-sqrt((sum((as.matrix(x2-mean(x2)))^2))/n-1)
+sx3<-sqrt((sum((as.matrix(x3-mean(x3)))^2))/n-1)
+covx2_x3<-sx2_x3/(sx2*sx3)
+(covx2_x3)^2
+##to use covx2_x3 in our formula for s.e(b2), we find its square
+s.e_b2<-sqrt((su_sq_d/sum((as.matrix(x2-mean(x2)))^2))*1/(1-(covx2_x3)^2))
+s.e_b2
+qt(0.025,7)
+qt(0.975,7)

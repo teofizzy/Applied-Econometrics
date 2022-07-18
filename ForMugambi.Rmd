@@ -1,3 +1,11 @@
+---
+title: "For Mugambi"
+author: "Teofilo Acholla"
+date: "5/12/2022"
+output: html_document
+---
+
+```{r}
 require(ggplot2)
 require(dplyr)
 require(readxl)
@@ -100,9 +108,6 @@ price.fitted<-lm(price~age+sqft, data = br5_new)
 price.fitted
 vcov(summary(price.fitted))
 summary(price.fitted)
-8.6568*10^-4 + 100*(9.9243*10^-7) + 20*(-2.8927*10^-5)
-sqrt(0.000386383)
-0.06437
-1.96155*0.01965663
-0.06437-0.03855746
-0.06437+0.03855746
+```
+```
+

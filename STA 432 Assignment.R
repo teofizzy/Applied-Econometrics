@@ -22,7 +22,7 @@ wagei-mean(wagei)
 as.matrix(wagei-mean(wagei))
 yhat<-as.matrix(wagei-mean(wagei))
 xhat<-as.matrix(educi-mean(educi))
-sum(yhat*xhat)
+(yhat*xhat)
 -2.6*17.326
 b2_num_correct<-sum(yhat*xhat)
 b2_denom_correct
@@ -49,3 +49,9 @@ b1<-mean(y)-(b2*(mean(x)))
 
 b1<-mean(wagei)-(b2*(mean(educi))) ## trial with assignment
 b1                    
+qt(0.975,1198)
+1.9615*0.1354
+2.3968+0.2655871
+0.2352/2
+0.1183/((1-0.2366)/1197)
+qf(0.975, 2, 1197)

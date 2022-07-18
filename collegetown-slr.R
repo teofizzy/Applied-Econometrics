@@ -49,3 +49,4 @@ y@cval
 #from the above, -7 is less than -1, thus we reject the null hypothesis of non-stationarity
 #|and conclude that the residuals are stationary which implies that these two variables are
 #|cointegrated whiich means that there exists some long-run relationship between them.
+?urca
